@@ -1,6 +1,6 @@
 const express = require('express');
 
-const TaskService = require('./../services/user.service');
+const TaskService = require('./../services/task.service');
 const validatorHandler = require('./../middlewares/validator.handler');
 const {
   updateTaskSchema,

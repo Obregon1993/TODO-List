@@ -1,5 +1,6 @@
 const boom = require('@hapi/boom');
 const sequelize = require('../libs/sequelize');
+const { Task } = require('../../db/models/mongoDB/schemas');
 
 class TaskService {
   constructor() {}
