@@ -37,6 +37,7 @@ describe('Task Routes', () => {
   it('Should create a task', (done) => {
     const newTask = {
       title: 'Test Task',
+      userId: 'ADD valid user ID',
     };
 
     request(app)
