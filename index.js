@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes');
 const getMongoConection = require('./libs/mongoose');
+const { checkApiKey } = require('./middlewares/auth.handler');
 
 const {
   logErrors,
@@ -26,18 +27,19 @@ const options = {
   },
 };
 app.use(cors(options));
+require('./utils/auth');
 
 app.get('/', (req, res) => {
   res.send('this is my express app');
 });
 
-app.get('/new-route', (req, res) => {
-  res.send('new route');
+app.get('/new-route', checkApiKey, (req, res) => {
+  res.send('I am a new route');
 });
 
 routerApi(app);
 
-getMongoConection();
+//getMongoConection();
 
 app.use(logErrors);
 app.use(ormErrorHandler);

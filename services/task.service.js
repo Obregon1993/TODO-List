@@ -1,31 +1,36 @@
 const boom = require('@hapi/boom');
-const sequelize = require('../libs/sequelize');
+const { models } = require('../libs/sequelize');
 
 class TaskService {
   constructor() {}
 
   async create(data) {
-    return data;
+    const newTask = await models.Task.create(data);
+    return newTask;
   }
 
   async find() {
-    const query = 'SELECT * FROM tasks';
-    const [data] = await sequelize.query(query);
-    return data;
+    const rta = await models.Task.findAll({ include: ['user'] });
+    return rta;
   }
 
   async findOne(id) {
-    return { id };
+    const task = await models.Task.findByPk(id);
+    if (!task) {
+      throw boom.notFound('task not found');
+    }
+    return task;
   }
 
   async update(id, changes) {
-    return {
-      id,
-      changes,
-    };
+    const task = await this.findOne(id);
+    const rta = await task.update(changes);
+    return rta;
   }
 
   async delete(id) {
+    const task = await this.findOne(id);
+    await task.destroy();
     return { id };
   }
 }

@@ -1,5 +1,6 @@
 const express = require('express');
-
+const passport = require('passport');
+const MongoTaskService = require('../services/mongo/task.service');
 const TaskService = require('./../services/task.service');
 const validatorHandler = require('./../middlewares/validator.handler');
 const {
@@ -10,18 +11,26 @@ const {
 
 const router = express.Router();
 const service = new TaskService();
+const mongoService = new MongoTaskService();
 
-router.get('/', async (req, res, next) => {
-  try {
-    const tasks = await service.find();
-    res.json(tasks);
-  } catch (error) {
-    next(error);
+router.get(
+  '/',
+  passport.authenticate('jwt', { session: false }),
+  async (req, res, next) => {
+    try {
+      const tasks = await service.find();
+      res.json(tasks);
+      // const tasks = await mongoService.find();
+      // res.json(tasks);
+    } catch (error) {
+      next(error);
+    }
   }
-});
+);
 
 router.get(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getTaskSchema, 'params'),
   async (req, res, next) => {
     try {
@@ -36,12 +45,17 @@ router.get(
 
 router.post(
   '/',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(createTaskSchema, 'body'),
   async (req, res, next) => {
     try {
       const body = req.body;
+      body['userId'] = req.user.sub;
+      // if you are using moongo do not include the above line and add the userID in the req.body
       const newTask = await service.create(body);
       res.status(201).json(newTask);
+      //const newMongoUser = await mongoService.create(body);
+      //res.status(201).json(newMongoUser);
     } catch (error) {
       next(error);
     }
@@ -50,6 +64,7 @@ router.post(
 
 router.patch(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getTaskSchema, 'params'),
   validatorHandler(updateTaskSchema, 'body'),
   async (req, res, next) => {
@@ -66,6 +81,7 @@ router.patch(
 
 router.delete(
   '/:id',
+  passport.authenticate('jwt', { session: false }),
   validatorHandler(getTaskSchema, 'params'),
   async (req, res, next) => {
     try {

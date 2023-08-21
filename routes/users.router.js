@@ -15,10 +15,10 @@ const mongoUserService = new MongoUserService();
 
 router.get('/', async (req, res, next) => {
   try {
-    //const users = await service.find();
-    //res.json(users);
-    const usersMongo = await mongoUserService.find();
-    res.json(usersMongo);
+    const users = await service.find();
+    res.json(users);
+    // const usersMongo = await mongoUserService.find();
+    // res.json(usersMongo);
   } catch (error) {
     next(error);
   }
@@ -44,10 +44,10 @@ router.post(
   async (req, res, next) => {
     try {
       const body = req.body;
-      // const newUser = await service.create(body);
-      //res.status(201).json(newUser);
-      const newMongoUser = await mongoUserService.create(body);
-      res.status(201).json(newMongoUser);
+      const newUser = await service.create(body);
+      res.status(201).json(newUser);
+      // const newMongoUser = await mongoUserService.create(body);
+      // res.status(201).json(newMongoUser);
     } catch (error) {
       next(error);
     }

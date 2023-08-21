@@ -4,12 +4,7 @@ const Schema = mongoose.Schema;
 
 // Definir el esquema para las tareas
 const TaskSchema = new Schema({
-  // id_task: {
-  //   type: String,
-  //   default: uuid.v4(),
-  //   unique: true,
-  // },
-  description: {
+  title: {
     type: String,
     required: true,
   },
@@ -27,11 +22,15 @@ const UserSchema = new Schema({
     unique: true,
   },
   password: {
-    // NOTA: En una aplicación real, deberías hashear las contraseñas, nunca guardarlas en texto plano.
     type: String,
     required: true,
   },
-  tasks: [TaskSchema], // Esto establece que un usuario tiene un array de tareas.
+  tasks: [
+    {
+      type: Schema.Types.ObjectId, // Esto es un array de ObjectIds
+      ref: 'Task', // Esta es una referencia al modelo 'Task'
+    },
+  ],
 });
 
 // Crear los modelos a partir de los esquemas

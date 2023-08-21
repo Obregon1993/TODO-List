@@ -1,18 +1,23 @@
 const boom = require('@hapi/boom');
-const sequelize = require('../libs/sequelize');
-const { Task } = require('../../db/models/mongoDB/schemas');
+const { Task, User } = require('../../db/models/mongoDB/schemas');
 
 class TaskService {
   constructor() {}
 
   async create(data) {
-    return data;
+    const newTask = new Task(data);
+    const savedtask = await newTask.save();
+    console.log('check data', data.userId);
+    const user = await User.findOne({ _id: data.userId.toString() });
+    // // user.tasks.push(newTask);
+    user.tasks.push(savedtask._id);
+    const userTaks = await user.save();
+    return userTaks;
   }
 
   async find() {
-    const query = 'SELECT * FROM tasks';
-    const [data] = await sequelize.query(query);
-    return data;
+    const allTasks = await Task.find();
+    return allTasks;
   }
 
   async findOne(id) {
