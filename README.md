@@ -1,5 +1,7 @@
 # TODO-List
 
+PUT THIS FILE IN EDIT MODE TO FORMAT IT AND EZ READ!
+
 A TODO list using node
 
 REQUIREMENTS TO RUN THE CODE:
@@ -20,7 +22,7 @@ DB_PORT='5432'
 API_KEY='123'
 JWT_SECRET='my_secret'
 
-**\*\*\*\***GENERAL****\*****
+**\*\*\*\***GENERAL\***\*\*\*\***
 For a better development of testing this application, I decided to give it the following structure. This application is based on clean architecture, so the service layer won't be tightly coupled to the others, making it convenient when switching between PostgreSQL and MongoDB as databases. By using Docker, there's no need to install anything locally; you simply need to run the image that comes with the databases and their interfaces to visualize all the data in the browser. Next, I will be explaining more functionalities and how to execute the app
 
 As a good practice, I decided to include schemas for data validation and error handling. Most of the functionalities are implemented for the use of PostgreSQL as the default database. Once you switch to MongoDB, only a few functionalities will be available to respond to questions. The application involves creating users using the methods and creating tasks. Start by creating the users. Users will need to authenticate to create tasks using the /login route. Then, use the authentication token returned from the query as a bearer token to manage access to the task routes
@@ -36,7 +38,7 @@ docker-compose up
 
 (for all services)
 
-**\*\*\*\***GENERAL****\*****
+**\*\*\*\***GENERAL\***\*\*\*\***
 
 \***\*\*\*\***OPTIONAL\***\*\*\*\*\***
 
